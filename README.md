@@ -1,0 +1,1 @@
+See instructions in the chat. Basic setup: create venv, pip install -r requirements.txt, run python app.py.

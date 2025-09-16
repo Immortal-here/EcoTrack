@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Dashboard</h2>
+
+  <!-- Summary Card -->
+  <div style="background:#f4f4f4; padding:15px; border-radius:10px; margin-bottom:20px; text-align:center;">
+    <h3>Total CO₂ This Week: <span style="color:green;">{{ "%.2f"|format(chart_values|sum) }} kg</span></h3>
+    <p>
+      Travel: {{ "%.1f"|format(travel) }} kg |
+      Electricity: {{ "%.1f"|format(electricity) }} kg |
+      Diet: {{ "%.1f"|format(diet) }} kg
+    </p>
+  </div>
+
+  <!-- Recent Activities Table -->
+  <h3>Recent Activities</h3>
+  {% if entries %}
+    <table style="width:100%; border-collapse:collapse; margin-bottom:20px; font-size:14px;">
+      <thead>
+        <tr style="background:#4CAF50; color:white; text-align:left;">
+          <th style="padding:10px;">Date</th>
+          <th style="padding:10px;">Travel</th>
+          <th style="padding:10px;">KMs</th>
+          <th style="padding:10px;">kWh</th>
+          <th style="padding:10px;">Diet</th>
+          <th style="padding:10px;">CO₂ (kg)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in entries %}
+          <tr style="background: {% if loop.index is even %}#f9f9f9{% else %}#ffffff{% endif %};">
+            <td style="padding:10px;">{{ e.date }}</td>
+            <td style="padding:10px;">{{ e.travel_mode }}</td>
+            <td style="padding:10px;">{{ e.travel_km }}</td>
+            <td style="padding:10px;">{{ e.electricity_kwh }}</td>
+            <td style="padding:10px;">{{ e.diet_type }}</td>
+            <td style="padding:10px; font-weight:bold; color:#333;">{{ "%.2f"|format(e.co2_kg) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No activities logged yet.</p>
+  {% endif %}
+
+  <!-- Dashboard Charts -->
+  <h3>CO₂ Analytics</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <!-- Line Chart -->
+    <div>
+      <h4>Weekly CO₂ Emissions</h4>
+      <canvas id="chart" width="400" height="250"></canvas>
+    </div>
+
+    <!-- Pie Chart -->
+    <div>
+      <h4>CO₂ Breakdown</h4>
+      <canvas id="pieChart" width="400" height="250"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Line Chart
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [{
+          label: 'CO₂ (kg)',
+          data: {{ chart_values|safe }},
+          borderColor: 'green',
+          backgroundColor: 'rgba(0,128,0,0.1)',
+          fill: true,
+          tension: 0.3
+        }]
+      }
+    });
+
+    // Pie Chart
+    const ctx2 = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'pie',
+      data: {
+        labels: ['Travel', 'Electricity', 'Diet'],
+        datasets: [{
+          data: [{{ travel }}, {{ electricity }}, {{ diet }}],
+          backgroundColor: ['#FF9800', '#2196F3', '#9C27B0']
+        }]
+      }
+    });
+  </script>
+{% endblock %}

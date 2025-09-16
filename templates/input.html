@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Add Daily Activity</h2>
+  <form method="post">
+    <label>Date: <input type="date" name="date" value="{{ default_date }}" required></label><br>
+
+    <label>Travel Mode:
+      <select name="travel_mode">
+        <option value="car">Car</option>
+        <option value="bus">Bus</option>
+        <option value="bike">Bike</option>
+        <option value="cycle">Cycle</option>
+        <option value="walk">Walk</option>
+      </select>
+    </label><br>
+
+    <label>Travel Distance (km): <input type="number" step="0.1" name="travel_km"></label><br>
+    <label>Electricity Usage (kWh): <input type="number" step="0.1" name="electricity_kwh"></label><br>
+
+    <label>Diet Type:
+      <select name="diet_type">
+        <option value="veg">Vegetarian</option>
+        <option value="nonveg">Non-Vegetarian</option>
+      </select>
+    </label><br>
+
+    <button type="submit">Save Activity</button>
+  </form>
+{% endblock %}

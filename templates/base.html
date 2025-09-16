@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>🌱 EcoTrack</h1>
+    <nav>
+      {% if session.get("user_id") %}
+        <a href="{{ url_for('dashboard') }}">Dashboard</a> |
+        <a href="{{ url_for('input_activity') }}">Add Activity</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('home') }}">Home</a> |
+        <a href="{{ url_for('register') }}">Register</a> |
+        <a href="{{ url_for('login') }}">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, msg in messages %}
+            <li class="{{ category }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <p>Built by Aryan Patel © 2025</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Welcome to EcoTrack</h2>
+  <p>Track your daily activities and monitor your carbon footprint.</p>
+  <p><a href="{{ url_for('register') }}">Register</a> or <a href="{{ url_for('login') }}">Login</a> to get started.</p>
+{% endblock %}

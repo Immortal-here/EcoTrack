@@ -1,29 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Add Daily Activity</h2>
-  <form method="post">
-    <label>Date: <input type="date" name="date" value="{{ default_date }}" required></label><br>
+  <h2 class="mb-4">{% if edit %}✏️ Edit Activity{% else %}➕ Log New Activity{% endif %}</h2>
 
-    <label>Travel Mode:
-      <select name="travel_mode">
-        <option value="car">Car</option>
-        <option value="bus">Bus</option>
-        <option value="bike">Bike</option>
-        <option value="cycle">Cycle</option>
-        <option value="walk">Walk</option>
-      </select>
-    </label><br>
+  <div class="card shadow-sm border-0 mx-auto" style="max-width:700px;">
+    <div class="card-body">
+      <form method="POST" action="{% if edit %}{{ url_for('edit_activity', act_id=activity.id) }}{% else %}{{ url_for('input_activity') }}{% endif %}">
+        <!-- Date -->
+        <div class="mb-3">
+          <label for="date" class="form-label">Date</label>
+          <input type="date" class="form-control" id="date" name="date" required value="{{ activity.date if activity else default_date }}">
+        </div>
 
-    <label>Travel Distance (km): <input type="number" step="0.1" name="travel_km"></label><br>
-    <label>Electricity Usage (kWh): <input type="number" step="0.1" name="electricity_kwh"></label><br>
+        <!-- Travel Mode -->
+        <div class="mb-3">
+          <label for="travel_mode" class="form-label">Travel Mode</label>
+          <select class="form-select" id="travel_mode" name="travel_mode" required>
+            {% set tm = (activity.travel_mode if activity else '') %}
+            <option value="">-- Select --</option>
+            <option value="Car" {% if tm == 'Car' %}selected{% endif %}>Car</option>
+            <option value="Bike" {% if tm == 'Bike' %}selected{% endif %}>Bike</option>
+            <option value="Bus" {% if tm == 'Bus' %}selected{% endif %}>Bus</option>
+            <option value="Train" {% if tm == 'Train' %}selected{% endif %}>Train</option>
+            <option value="Walking" {% if tm == 'Walking' %}selected{% endif %}>Walking</option>
+            <option value="Cycling" {% if tm == 'Cycling' %}selected{% endif %}>Cycling</option>
+          </select>
+        </div>
 
-    <label>Diet Type:
-      <select name="diet_type">
-        <option value="veg">Vegetarian</option>
-        <option value="nonveg">Non-Vegetarian</option>
-      </select>
-    </label><br>
+        <!-- Travel Distance -->
+        <div class="mb-3">
+          <label for="travel_km" class="form-label">Distance (KM)</label>
+          <input type="number" step="0.1" class="form-control" id="travel_km" name="travel_km" placeholder="Enter distance travelled" value="{{ activity.travel_km if activity else '' }}">
+        </div>
 
-    <button type="submit">Save Activity</button>
-  </form>
+        <!-- Electricity -->
+        <div class="mb-3">
+          <label for="electricity_kwh" class="form-label">Electricity Used (kWh)</label>
+          <input type="number" step="0.1" class="form-control" id="electricity_kwh" name="electricity_kwh" placeholder="Enter electricity consumed" value="{{ activity.electricity_kwh if activity else '' }}">
+        </div>
+
+        <!-- Diet -->
+        <div class="mb-3">
+          <label for="diet_type" class="form-label">Diet Type</label>
+          {% set dt = (activity.diet_type if activity else '') %}
+          <select class="form-select" id="diet_type" name="diet_type" required>
+            <option value="">-- Select --</option>
+            <option value="Vegetarian" {% if dt == 'Vegetarian' %}selected{% endif %}>Vegetarian</option>
+            <option value="Non-Vegetarian" {% if dt == 'Non-Vegetarian' %}selected{% endif %}>Non-Vegetarian</option>
+            <option value="Vegan" {% if dt == 'Vegan' %}selected{% endif %}>Vegan</option>
+          </select>
+        </div>
+
+        <!-- Submit / Cancel -->
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success">{% if edit %}Update{% else %}Log Activity{% endif %}</button>
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}

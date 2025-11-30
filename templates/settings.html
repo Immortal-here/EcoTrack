@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2 class="mb-4">⚙️ Settings</h2>
+
+  <div class="card mb-4" style="max-width:600px;">
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('settings') }}">
+        <div class="mb-3">
+          <label class="form-label">Weekly CO₂ Goal (kg)</label>
+          <input type="number" step="0.1" name="weekly_goal" class="form-control" value="{{ weekly_goal }}" required>
+        </div>
+        <button class="btn btn-success" type="submit">Save Goal</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mb-4" style="max-width:600px;">
+    <div class="card-body">
+      <h5>Reset Statistics</h5>
+      <p class="text-muted">This will delete all your logged activities permanently.</p>
+      <form method="POST" action="{{ url_for('reset_stats') }}" onsubmit="return confirm('Are you sure you want to delete ALL your activities? This cannot be undone.');">
+        <button type="submit" class="btn btn-danger">Reset Statistics</button>
+      </form>
+    </div>
+  </div>
+
+  <p><small class="text-muted">You currently have <strong>{{ activity_count }}</strong> activities logged.</small></p>
+{% endblock %}

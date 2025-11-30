@@ -1,40 +1,27 @@
+/* Keep a clean, light theme on top of Bootstrap */
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background: #f5f9f6;
+  background: #f5f9f6; /* soft green background */
   color: #333;
 }
 
-header, footer {
-  padding: 10px;
-  background: #cce8d9;
-  margin-bottom: 20px;
-}
-
-nav a {
-  margin-right: 10px;
-  text-decoration: none;
-}
-
+/* Override Bootstrap headings with a greener shade */
 h1, h2, h3 {
-  color: #2b5e3c;
+  color: #2e7d32; 
+  font-weight: 600;
 }
 
+/* Tables: add spacing and subtle styling */
 table {
-  border-collapse: collapse;
+  font-size: 0.9rem;
   margin-top: 10px;
 }
 
-.flash {
-  list-style: none;
-  padding: 0;
-}
+/* Flash messages already use Bootstrap alerts,
+   so we don’t need custom .flash anymore. */
 
-.flash li {
-  margin: 5px 0;
-  padding: 5px;
-  border-radius: 3px;
+/* Footer tweaks */
+footer {
+  font-size: 0.85rem;
+  background: #2e7d32 !important; /* darker footer */
+  color: #fff;
 }
-
-.flash .success { background: #d4edda; color: #155724; }
-.flash .warning { background: #fff3cd; color: #856404; }

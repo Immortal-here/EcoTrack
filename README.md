@@ -32,7 +32,6 @@ The project demonstrates skills in **Python, Flask, databases, data modeling, ba
 - 🔹 Interactive charts for monthly/weekly analysis  
 - 🔹 SQLite-based lightweight database  
 - 🔹 Simple and clean Flask application structure  
-- 🔹 Ready for deployment (Dockerfile + requirements.txt included)
 
 ---
 
